@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>홈 임</h1>
+<span th:if="${session.id != null}" th:text="${session.id} + '님이 로그인하셨습니다'"></span>
+<ul>
+    <li th:if="${session.id == null}"><a th:href="@{/member/login}"> 로그인</a> </li>
+    <li th:if="${session.id != null}"><a th:href="@{/member/logout}"> 로그아웃</a>
+    </li>
+    <li><a th:href="@{/item/list1}"> 상품목록1</a> </li>
+    <li><a th:href="@{/item/list2}"> 상품목록2</a> </li>
+</ul>
+</body>
+</html>

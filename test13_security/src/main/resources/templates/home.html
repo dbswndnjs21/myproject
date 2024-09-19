@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>●▅▇█▇▆▆▅▄▇</h1>
+
+<ul>
+
+    <li th:if="${user ==null}"><a th:href="@{/login}">회원 로그인 </a></li>
+    <li th:unless="${user==null}">
+        <span th:text="${user.username} + '님 반갑습니다'"></span>
+        <form th:action="@{/logout}" method="post"> <!-- 정해진 값 /logout 으로 하고 반드시 post로 보내야함 -->
+            <input type="submit" value="로그아웃">
+        </form>
+    </li>
+<!--    <li th:if="${user !=null}"><a th:href="@{/logout}">회원 로그아웃 </a></li>-->
+    <li><a th:href="@{/user/join}">회원가입</a></li>
+    <li><a th:href="@{/sample/all}">모든 사용자</a></li>
+    <li><a th:href="@{/member/list}">회원 페이지 </a></li>
+    <li><a th:href="@{/admin/main}">관리자 페이지</a></li>
+</ul>
+</body>
+</html>

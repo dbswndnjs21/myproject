@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+	<!-- 마이바티스 설정단계
+		1. DataSource 설정 - DB 설정 정보
+		2. SqlSessionFactory 설정 => 스프링에서는 SqlSessionFactoryBean 대체
+		3. SqlSession 설정 => 스프링에서는 SessionTemplate
+		4. DAO 설정
+	-->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="username" value="c##java"/>
+		<property name="password" value="c##java"/>
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="mapperLocations" value="classpath*:mybatis/MembersMapper.xml"/>
+	</bean>
+
+	<!--생성자로 주입받게 되어있음-->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"/>
+	</bean>
+
+	<bean id="dao" class="test.di06.mybatis.MybatisDao">
+		<property name="sqlSession" ref="sqlSession"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+아이디 : <span th:text="${member.id}"></span> <br>
+<!-- member.id도 되고 member.getId()도 됨-->
+비밀번호 : <span th:text="${member.getPwd()}"></span> <br>
+나이 : <span th:text="${member.getAge()}"></span> <br>
+이메일 : <span th:text="${member.getEmail()}"></span><br>
+가입일 : <span th:text="${member.getRegdate()}"></span>
+</body>
+</html>

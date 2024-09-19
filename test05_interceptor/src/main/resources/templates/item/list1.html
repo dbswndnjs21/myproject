@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>상품목록1</h1>
+<ul>
+    <li th:each="item: ${list}">
+        <span th:text="${item}"></span>
+    </li>
+</ul>
+</body>
+</html>

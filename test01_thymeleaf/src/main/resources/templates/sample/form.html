@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:inline="javascript">
+        // 이걸 type text/javascript 하면 id값이 String인데 ""이 없어서 오류남
+        // 그럴땐 th:inline 사용
+        let id = [[${mem.id}]]
+        let pwd = [[${mem.pwd}]]
+        console.log(id,pwd)
+    </script>
+</head>
+<body>
+<h1>회원정보</h1>
+<form th:object="${mem}" th:action="@{/sample/formOk}">
+회원아이디 <input type="text" th:field="*{id}"> <br>
+비밀번호  <input type="text" th:field="*{pwd}"> <br>
+이메일    <input type="text" th:field="*{email}"> <br>
+미성년자  <input type="checkbox" th:field="*{minor}"> <br>
+        <input type="submit" value="저장">
+<!--맴버변수의 값을 줄때는 *{}-->
+</form>
+</body>
+</html>

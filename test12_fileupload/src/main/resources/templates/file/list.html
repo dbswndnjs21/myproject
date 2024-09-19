@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="table">
+    <tr>
+        <th>파일번호</th><th>작성자</th><th>제목</th><th>업로드한 파일명</th><th>파일크기</th><th>상세보기</th>
+    </tr>
+    <tr th:each="list:${list}">
+        <td th:text="${list.filenum}"></td>
+        <td th:text="${list.writer}"></td>
+        <td th:text="${list.title}"></td>
+        <td th:text="${list.orgfilename}"></td>
+        <td th:text="${list.filesize}"></td>
+        <th><a th:href="@{/file/info(filenum=${list.filenum})}">상세보기</a> </th>
+    </tr>
+</table>
+</body>
+</html>

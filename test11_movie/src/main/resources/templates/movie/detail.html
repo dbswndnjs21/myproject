@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        .active{font-size: 1.3em; color: cyan;}
+    </style>
+</head>
+<body>
+<div>
+    <h1>영화 제목 : [[${movie.title}]]</h1>
+    <p th:text="'영화 감독 : ' + ${movie.director}"></p>
+    <p th:text="|줄거리 :  ${movie.content}|"></p>
+    <!-- ||안에 넣으면 문자열을 자유롭게 사용할수있다 -->
+</div>
+<div id="commList">
+
+</div>
+<div class="commentsForm">
+    <h3>댓글</h3>
+    <p>작성자<br><input type="text" id="id"></p>
+    <p>내용<br><textarea id="comments"></textarea> </p>
+    <input type="hidden" id="mnum" value="${movie.mnum}">
+    <p><input type="button" id="btnSave" value="등록"></p>
+</div>
+
+<script th:inline="javascript">
+
+    $("#btnSave").click(function (e) {
+        var mnum = [[${movie.mnum}]];
+
+        let data={"id":$("#id").val(),
+            "comments":$("#comments").val(),
+                "mnum":mnum
+            }
+        let jsonParam= JSON.stringify(data);
+        console.log(jsonParam)
+        e.preventDefault()
+        $.ajax({
+            url:'/comments/insert',
+            type:'put',
+            contentType:'application/json',
+            data: jsonParam,
+            success:function (data) {
+                console.log(data)
+                list();
+            }
+        })
+    });
+
+    function deleteComment(cnum){
+        $.ajax({
+            url:'/comments/delete?cnum='+ cnum,
+            type: 'delete',
+            success:function (data){
+                list(0);
+                console.log(data)
+            }
+        })
+    }
+
+    function update(cnum) {
+        $.ajax({
+            url:'/comments/update/' +cnum,
+            type: 'put',
+            success:function (data){
+                alert($("input[value='" + cnum + "']").val());
+            }
+        })
+    }
+
+    // function list(page){
+    //     $.ajax({
+    //         url: `/comments/list/[[${movie.mnum}]]/` + page,
+    //         type: 'get',
+    //         success: function (data) {
+    //             console.log(data)
+    //             $("#commList").empty();
+    //             let th = "<tr><th>댓글번호</th><th>내용</th><th>아이디</th><th>수정</th><th>삭제</th>";
+    //             $("#commList").append(th);
+    //             $(data.list).each(function (i, comm) {
+    //                 console.log(comm)
+    //                 let tr = "<tr>" +
+    //                     "<td>" + comm.cnum + "</td>" +
+    //                     "<td>" + comm.comments + "</td>" +
+    //                     "<td>" + comm.id + "</td>" +
+    //                     "<td><a href=\"javascript:update('" + comm.cnum + "')\">수정</a></td>" +
+    //                     "<td><a href=\"javascript:deleteComment('" + comm.cnum + "')\">삭제</a></td>" +
+    //                     "</tr>"
+    //                 $("#commList").append(tr)
+    //             });
+    //             let pageing="";
+    //             if (data.startPage >4 ) {
+    //                 pageing +="<a href='javascript:list(" + (data.startPage -1) + ")'>이전</a>"
+    //             }
+    //             for (let i = data.startPage; i <data.endPage;i++) {
+    //                 if (i == page) {
+    //                     pageing+="<a class='active' href='javascript:list(" + i + ")'>[" + i + "]</a>";
+    //                 } else {
+    //                     pageing+="<a href='javascript:list(" + i + ")'>[" + i + "]</a>";
+    //                 }
+    //             }
+    //             if (data.endPage < data.totalPageCount -1 ) {
+    //                 pageing +="<a href='javascript:list(" + (data.endPage + 1) + ")'>다음</a>"
+    //             }
+    //             $("#commList").append(pageing);
+    //         }
+    //     });
+    // }
+
+
+
+    let mnum = [[${movie.mnum}]]
+
+    function list(page) {
+        $.ajax({
+            url: "/comments/list/" + mnum + "/" + page,
+            type: 'get',
+            dataType: 'json', // 서버에서 반환받을 데이터의 타입
+            success: function (data) {
+                $("#commList").empty();
+                let html = "";
+                $(data.list).each(function (i, comm) {
+                    html += "<div>" +
+                        "글번호 : <input value='" + comm.cnum + "' readonly><br>" +
+                        "아이디 : <input value='" + comm.id + "' readonly><br>" +
+                        "내용 : <input value='" + comm.comments + "' readonly><br>" +
+                        "<a href='javascript:deleteComment("+comm.cnum+")'>삭제</a>" + " " +
+                        "<a href='javascript:update("+comm.cnum+")'>수정</a>" +
+                        "</div>";
+                });
+                $("#commList").append(html)
+                //페이징처리
+                let pageing = "";
+
+
+                //이전페이지
+                if (data.startPage > 4) {
+                    pageing += "<a href='javascript:list("+(data.startPage-1)+")'>prev</a>";
+                }
+                for (let i = data.startPage; i <= data.endPage; i++) {
+                    if (i == page) { //현재페이지 확인
+                        pageing += "<a class='active' href='javascript:list(" + i + ")'>[" + i + "]</a>";
+                    } else {
+                        pageing += "<a href='javascript:list(" + i + ")'>[" + i + "]</a>";
+                    }
+                }
+
+                //다음페이지
+                // if (data.startPage+3 < data.endPage) {
+                if(data.endPage<data.totalPageCount-1){
+                    pageing += "<a href='javascript:list("+(data.endPage+1)+")'>next</a>";
+                }
+                $("#commList").append(pageing)
+            },
+        })
+    }
+
+
+    list(0);
+
+</script>
+
+</body>
+</html>

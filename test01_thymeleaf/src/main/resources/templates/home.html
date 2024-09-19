@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>HOME 입니다</h1>
+    <div th:text="${msg}">헬로</div>
+    <!-- msg라는 값이 없으면 헬로가 출력됨-->
+    <ul>
+        <li><a th:href="@{/sample/test01}">sample/test01</a></li>
+    <!-- 링크를 표시할때는 @{}를 사용한다 / 변수를 사용할땐 ${}      -->
+        <li><a th:href="@{/sample/test02}">sample/test02</a></li>
+    <!-- 값 넘길때 -->
+        <li><a th:href="@{/sample/link1(id='hello',pwd='1234')}">sample/link1</a> </li>
+
+        <li><a th:href="@{/sample/link2/aaa/1234}">sample/link2</a> </li>
+        <li><a th:href="@{/sample/link2/{id}/{pwd}(id='hello', pwd=('1234'))}">sample/link2</a> </li>
+
+        <li><a th:href="@{/sample/form}">sample/form</a> </li>
+
+
+    </ul>
+
+
+    [[${msg}]]<br>
+<!--   >타임리프 속성에 넣지 않고 단독으로 넣으려면 [[여기]]안에 넣어야함 -->
+
+</body>
+</html>

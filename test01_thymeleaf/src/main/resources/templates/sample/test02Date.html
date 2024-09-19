@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:text="${#dates.format(date1,'yyyy-MM-dd HH:mm:ss')}"></div>
+year : <span th:text="${#dates.year(date1)}"></span>
+month : <span th:text="${#dates.month(date1)}"></span>
+day : <span th:text="${#dates.day(date1)}"></span>
+
+<div th:text="${#temporals.format(date2,'yyyy-MM-dd :HH:mm:ss')}"></div>
+year : <span th:text="${#temporals.year(date2)}"></span>
+month : <span th:text="${#temporals.month(date2)}"></span>
+day : <span th:text="${#temporals.day(date2)}"></span>
+
+<div th:with="text='Hello World'">
+    [[${text}]]<br>
+    <span th:text="${#strings.substring(text,6,11)}"></span>
+    <span th:text="${#strings.length(text)}"></span>
+    <span th:text="${#strings.replace(text,'Hello','안녕')}"></span>
+</div>
+
+
+</body>
+</html>

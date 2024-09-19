@@ -1,0 +1,34 @@
+package com.example.demo.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+public class ItemController {
+
+    @GetMapping("/item/list1")
+    public String itemList1(Model model) {
+        List<String> list = new ArrayList<>();
+        list.add("상품1");
+        list.add("상품2");
+        list.add("상품3");
+        model.addAttribute("list", list);
+        return "item/list1";
+    }
+    @GetMapping("/item/list2")
+    public String itemList2(Model model) {
+        List<String> list = new ArrayList<>();
+        list.add("상품11");
+        list.add("상품22");
+        list.add("상품33");
+        model.addAttribute("list", list);
+        return "item/list2";
+    }
+
+
+
+}

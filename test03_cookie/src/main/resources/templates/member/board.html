@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>게시판</h1>
+    <ul>
+        <li th:each="board:${list}">
+            <samp th:text="${board}"></samp>
+        </li>
+    </ul>
+<a th:href="@{/}" > HOME 으로</a>
+</body>
+</html>

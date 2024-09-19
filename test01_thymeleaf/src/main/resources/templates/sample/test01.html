@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>test01.html입니다</h1>
+<ul>
+    <li th:each="flower:${list1}">
+        <span th:text="${flower}"></span>
+    </li>
+<!--    list1에서 첫번째 값을 꺼내와서 flower에 저장 저장된 값을 span에서 출력-->
+</ul>
+
+<h1>사용자 목록</h1>
+<ul>
+    <li th:each="user:${list2}">
+        <span th:text="${user.username}"></span>
+        <span th:text="${user.password}"></span>
+    </li>
+</ul>
+
+<ul>
+    <li th:each="user,status:${list2}">
+        <span th:text="'index ' + ${status.index}"></span>
+        <span th:text="'count ' + ${status.count}"></span>
+
+        <span th:text="${user.username}"></span>
+        <span th:text="${user.password}"></span>
+    </li>
+</ul>
+<!-- with : 지역 변수 선언 -->
+<div th:with="user1=${list2[0]}">
+    <span th:text="${user1.username}"></span>
+    <span th:text="${user1.password}"></span>
+</div>
+
+<!--Map 에 저자된 value 값 꺼내오기 []안에 key값을 넣어서 뽑아오기-->
+<div th:text="${mem['name']}"></div>
+<div th:text="${mem['email']}"></div>
+
+<br>
+<!--map에 객체 넣었을때 값 가져오기-->
+<div th:text="${map2['user1'].username}"></div>
+</body>
+</html>

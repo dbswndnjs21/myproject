@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--글 등록 기능 완성 해보기 ( 글등록후 result.html로 결과 보이기-->
+<h1>글등록</h1>
+<form method="post" th:action="@{/board/insert}">
+    글제목 <input type="text" name="title"><br>
+    작성자 <input type="text" name="id"> <br>
+    내용 <input type="text" name="content"> <br>
+    <input type="submit" value="저장">
+</form>
+</body>
+</html>

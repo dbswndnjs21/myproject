@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mybatis.MemberMapper">
+
+<!--    type-aliases 줫기 때문에 파라미터 타입에 Member만 쓰면됨-->
+    <insert id="insert" parameterType="Member">
+        insert into member
+        values (#{id}, #{pwd}, #{email}, #{age}, sysdate)
+    </insert>
+
+    <!-- 페이징 처리 때문에 시작번호 끝번호를 가져와야함 -->
+    <select id="list" resultType="Member" parameterType="hashmap">
+        <![CDATA[
+        select * from
+        (
+            select m.*, rownum rnum from
+            (
+                select * from member order by regdate desc
+            )m
+        )where rnum >= #{startRow} and rnum <= #{endRow}
+        ]]>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from member
+    </select>
+
+    <delete id="delete" parameterType="String">
+        delete from member
+            where id = #{id}
+    </delete>
+
+    <select id="selectOne" parameterType="String" resultType="Member">
+        select * from member
+        where id = #{id}
+    </select>
+
+    <update id="update" parameterType="Member">
+        update member
+        set pwd = #{pwd}, email= #{email}, age= #{age}
+        where id = #{id}
+    </update>
+</mapper>

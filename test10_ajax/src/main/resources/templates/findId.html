@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div>
+    <form id="form">
+      비밀번호  <input type="text" name="pwd"> <br>
+        이메일 <input type="text" name="email"> <br>
+    </form>
+    <button id="find"> 아이디 찾기</button>
+    <div id="userinfo">
+
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $("#find").click(function (e) {
+        let param = $("form").serialize();
+        console.log(param);
+        e.preventDefault()
+        $.ajax({
+            url:'/findId',
+            type:'post',
+            data:param,
+            success:function (data){
+                let html = "아이디 : " + data.id + "<br>" +
+                            "비밀번호 : " + data.pwd + "<br>" +
+                            "나이 : " + data.age;
+                $("#userinfo").append(html)
+
+            }
+        })
+
+    });
+
+</script>
+</body>
+</html>
